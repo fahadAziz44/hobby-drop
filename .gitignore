@@ -33,6 +33,3 @@ local
 
 # vercel
 .vercel
-
-# environment variables
-.env
