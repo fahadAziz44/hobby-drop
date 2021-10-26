@@ -12,7 +12,9 @@ generator client {
 
 model User {
   id            Int       @default(autoincrement()) @id
-  name          String?
+  firstName     String   @map(name: "first_name")
+  lastName      String?   @map(name: "last_name")
+  password      String   @map(name: "password")
   email         String?   @unique
   createdAt     DateTime  @default(now()) @map(name: "created_at")
   updatedAt     DateTime  @updatedAt @map(name: "updated_at")
@@ -26,6 +28,7 @@ model File {
   address   String
   author    User?   @relation(fields: [authorId], references: [id])
   authorId  Int?
+  @@map(name: "files")
 }
 
 

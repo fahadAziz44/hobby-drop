@@ -14,6 +14,8 @@ import SinglePageForm from 'src/templates/SinglePageForm'
 
 interface ISignupFormInputs {
   email: string
+  firstName: string
+  lastName?: string
   password: string
   reTypePass: string
 }
@@ -61,6 +63,36 @@ const SignUp = () => {
           />
           <FormErrorMessage>
             {errors.email?.message || errors.email?.type}
+          </FormErrorMessage>
+        </FormControl>
+        <FormControl
+          id="firstName"
+          className="mt-10"
+          isInvalid={Boolean(errors.firstName)}
+        >
+          <FormLabel>First Name</FormLabel>
+          <Input
+            type="text"
+            placeholder="First Name"
+            {...register('firstName', { required: true })}
+          />
+          <FormErrorMessage>
+            {errors.firstName?.message || errors.firstName?.type}
+          </FormErrorMessage>
+        </FormControl>
+        <FormControl
+          id="lastName"
+          className="mt-10"
+          isInvalid={Boolean(errors.lastName)}
+        >
+          <FormLabel>Last Name</FormLabel>
+          <Input
+            type="text"
+            placeholder="Last Name"
+            {...register('lastName')}
+          />
+          <FormErrorMessage>
+            {errors.lastName?.message || errors.lastName?.type}
           </FormErrorMessage>
         </FormControl>
         <FormControl
