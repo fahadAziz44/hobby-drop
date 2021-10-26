@@ -25,8 +25,25 @@ const SignUp = () => {
     getValues,
     formState: { errors },
   } = useForm<ISignupFormInputs>()
-  const onSubmit: SubmitHandler<ISignupFormInputs> = async (data) =>
+  const onSubmit: SubmitHandler<ISignupFormInputs> = async (data) => {
     console.log(data)
+    const res = await fetch('/api/signup', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data),
+    })
+
+    if (res.status === 201) {
+      const userObj = await res.json()
+      // set user to useSWR state
+      // mutate(userObj)
+      console.log('after response: ', userObj)
+    } else {
+      const nost = await res.text()
+      console.log('after response: ', nost)
+      // setErrorMsg(await res.text())
+    }
+  }
 
   return (
     <SinglePageForm>
