@@ -1,5 +1,6 @@
 import nextConnect from 'next-connect'
 
+import { makeUserFromDBUser } from 'src/lib/user'
 import auth from 'src/middleware/auth'
 
 const handler = nextConnect()
@@ -17,12 +18,7 @@ export default handler
     try {
       res.status(200).send({
         done: true,
-        user: {
-          id: req.user.id,
-          email: req.user.email,
-          firstName: req.user.firstName,
-          lastName: req.user.lastName,
-        },
+        user: makeUserFromDBUser(req.user),
       })
     } catch (error: any) {
       res.status(500).end(error.message)

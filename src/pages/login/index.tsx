@@ -8,6 +8,7 @@ import {
   FormLabel,
   Input,
 } from '@chakra-ui/react'
+import router from 'next/router'
 import { useForm, SubmitHandler } from 'react-hook-form'
 
 import SinglePageForm from 'src/templates/SinglePageForm'
@@ -23,7 +24,22 @@ const Login = () => {
     handleSubmit,
     formState: { errors },
   } = useForm<ILoginFormInputs>()
-  const onSubmit: SubmitHandler<ILoginFormInputs> = (data) => console.log(data)
+  const onSubmit: SubmitHandler<ILoginFormInputs> = async (data) => {
+    const res = await fetch('/api/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data),
+    })
+
+    if (res.status === 201) {
+      const userObj = await res.json()
+      router.push('http://localhost:3000/user', userObj.user.firstName)
+    } else {
+      const nost = await res.text()
+      // eslint-disable-next-line no-console
+      console.error('error occured ', nost)
+    }
+  }
 
   return (
     <SinglePageForm>

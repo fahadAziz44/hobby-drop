@@ -1,6 +1,7 @@
 import nextConnect from 'next-connect'
 
 import { createUser } from 'src/lib/db'
+import { makeUserFromDBUser } from 'src/lib/user'
 
 import auth from '../../middleware/auth'
 
@@ -21,12 +22,7 @@ export default handler.use(auth).post(async (req: any, res: any) => {
 
       res.status(201).json({
         done: true,
-        user: {
-          id: user.id,
-          email: user.email,
-          firstName: user.firstName,
-          lastName: user.lastName,
-        },
+        user: makeUserFromDBUser(user),
       })
     })
   } catch (error: any) {
