@@ -8,6 +8,7 @@ import {
   FormLabel,
   Input,
 } from '@chakra-ui/react'
+import { useRouter } from 'next/router'
 import { useForm, SubmitHandler } from 'react-hook-form'
 
 import SinglePageForm from 'src/templates/SinglePageForm'
@@ -27,8 +28,8 @@ const SignUp = () => {
     getValues,
     formState: { errors },
   } = useForm<ISignupFormInputs>()
+  const router = useRouter()
   const onSubmit: SubmitHandler<ISignupFormInputs> = async (data) => {
-    console.log(data)
     const res = await fetch('/api/signup', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -37,13 +38,11 @@ const SignUp = () => {
 
     if (res.status === 201) {
       const userObj = await res.json()
-      // set user to useSWR state
-      // mutate(userObj)
-      console.log('after response: ', userObj)
+      router.push('http://localhost:3000/user', userObj.user.firstName)
     } else {
       const nost = await res.text()
-      console.log('after response: ', nost)
-      // setErrorMsg(await res.text())
+      // eslint-disable-next-line no-console
+      console.error('error occured ', nost)
     }
   }
 
@@ -111,7 +110,7 @@ const SignUp = () => {
           </FormErrorMessage>
         </FormControl>
         <FormControl
-          id="password"
+          id="repassword"
           className="mt-10"
           isInvalid={Boolean(errors.reTypePass)}
         >

@@ -1,19 +1,35 @@
-import { NextApiHandler } from 'next'
+import nextConnect from 'next-connect'
 
-import prisma from 'src/lib/prisma'
+import { createUser } from 'src/lib/db'
 
-const signup: NextApiHandler = async (req, res) => {
+import auth from '../../middleware/auth'
+
+const handler = nextConnect()
+
+export default handler.use(auth).post(async (req: any, res: any) => {
   try {
     const { email, password, firstName, lastName } = req.body as any
-    // await createUser(req.body)
-    const user = await prisma.user.create({
-      data: { email, password, firstName, lastName },
+    const user = await createUser({
+      email,
+      password,
+      firstName,
+      lastName,
     })
-    res.status(200).send({ done: true, body: user })
+
+    req.logIn(user, (err: any) => {
+      if (err) throw err
+
+      res.status(201).json({
+        done: true,
+        user: {
+          id: user.id,
+          email: user.email,
+          firstName: user.firstName,
+          lastName: user.lastName,
+        },
+      })
+    })
   } catch (error: any) {
-    console.error(error)
     res.status(500).end(error.message)
   }
-}
-
-export default signup
+})
