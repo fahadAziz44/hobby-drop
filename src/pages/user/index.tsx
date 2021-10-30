@@ -1,8 +1,17 @@
-import React from 'react'
+import React, { useState } from 'react'
 
-import { Alert, AlertIcon, Box, Container } from '@chakra-ui/react'
+import {
+  Alert,
+  AlertIcon,
+  Box,
+  Button,
+  Container,
+  Icon,
+} from '@chakra-ui/react'
 import { GetServerSideProps } from 'next'
 import nc from 'next-connect'
+import router from 'next/router'
+import { BiLogOutCircle } from 'react-icons/bi'
 
 import auth from 'src/middleware/auth'
 
@@ -15,6 +24,20 @@ interface UserProps {
 }
 
 const UserPage = ({ id, firstName, lastName, email, error }: UserProps) => {
+  const [logoutLoading, setLogoutLoading] = useState(false)
+  const onLogoutClick = async () => {
+    setLogoutLoading(true)
+    const res = await fetch('/api/logout')
+
+    setLogoutLoading(false)
+    if (res.status === 204) {
+      router.push('http://localhost:3000/login')
+    } else {
+      const nost = await res.text()
+      // eslint-disable-next-line no-console
+      console.error('error occured ', nost)
+    }
+  }
   return (
     <Container maxW="xl" centerContent bg="gray.100">
       {error && (
@@ -37,6 +60,15 @@ const UserPage = ({ id, firstName, lastName, email, error }: UserProps) => {
           <Box padding="4" maxW="3xl">
             Email: {email}
           </Box>
+          <Button
+            rightIcon={<Icon as={BiLogOutCircle} />}
+            colorScheme="teal"
+            variant="outline"
+            onClick={onLogoutClick}
+            isLoading={logoutLoading}
+          >
+            Logout
+          </Button>
         </>
       )}
     </Container>
