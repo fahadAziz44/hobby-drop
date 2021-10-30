@@ -14,7 +14,8 @@ model User {
   id            Int       @default(autoincrement()) @id
   firstName     String   @map(name: "first_name")
   lastName      String?   @map(name: "last_name")
-  password      String   @map(name: "password")
+  hash      String   @map(name: "hash")
+  salt      String
   email         String?   @unique
   createdAt     DateTime  @default(now()) @map(name: "created_at")
   updatedAt     DateTime  @updatedAt @map(name: "updated_at")
