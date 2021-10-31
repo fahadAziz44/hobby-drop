@@ -13,6 +13,7 @@ import nc from 'next-connect'
 import router from 'next/router'
 import { BiLogOutCircle } from 'react-icons/bi'
 
+import DropFilesbox from 'src/components/DropFilesBox'
 import auth from 'src/middleware/auth'
 
 interface UserProps {
@@ -71,6 +72,7 @@ const UserPage = ({ id, firstName, lastName, email, error }: UserProps) => {
           </Button>
         </>
       )}
+      <DropFilesbox />
     </Container>
   )
 }
