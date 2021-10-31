@@ -7,6 +7,7 @@ import {
   FormErrorMessage,
   FormLabel,
   Input,
+  useToast,
 } from '@chakra-ui/react'
 import { useRouter } from 'next/router'
 import { useForm, SubmitHandler } from 'react-hook-form'
@@ -29,6 +30,7 @@ const SignUp = () => {
     formState: { errors },
   } = useForm<ISignupFormInputs>()
   const router = useRouter()
+  const toast = useToast()
   const onSubmit: SubmitHandler<ISignupFormInputs> = async (data) => {
     const res = await fetch('/api/signup', {
       method: 'POST',
@@ -38,11 +40,25 @@ const SignUp = () => {
 
     if (res.status === 201) {
       const userObj = await res.json()
+      toast({
+        title: 'Account Created',
+        description: `${userObj.user.firstName} user created successfuly`,
+        status: 'success',
+        duration: 9000,
+        isClosable: true,
+      })
       router.push('http://localhost:3000/user', userObj.user.firstName)
     } else {
       const nost = await res.text()
       // eslint-disable-next-line no-console
       console.error('error occured ', nost)
+      toast({
+        title: 'Signup Error',
+        description: nost,
+        status: 'error',
+        duration: 9000,
+        isClosable: true,
+      })
     }
   }
 

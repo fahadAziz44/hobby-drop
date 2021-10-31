@@ -1,6 +1,7 @@
 import React from 'react'
 
 import {
+  useToast,
   Button,
   Center,
   FormControl,
@@ -24,6 +25,8 @@ const Login = () => {
     handleSubmit,
     formState: { errors },
   } = useForm<ILoginFormInputs>()
+  const toast = useToast()
+
   const onSubmit: SubmitHandler<ILoginFormInputs> = async (data) => {
     const res = await fetch('/api/login', {
       method: 'POST',
@@ -38,6 +41,13 @@ const Login = () => {
       const nost = await res.text()
       // eslint-disable-next-line no-console
       console.error('error occured ', nost)
+      toast({
+        title: 'Login Error',
+        description: nost,
+        status: 'error',
+        duration: 9000,
+        isClosable: true,
+      })
     }
   }
 
