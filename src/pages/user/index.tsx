@@ -70,9 +70,9 @@ const UserPage = ({ id, firstName, lastName, email, error }: UserProps) => {
           >
             Logout
           </Button>
+          <DropFilesbox />
         </>
       )}
-      <DropFilesbox />
     </Container>
   )
 }

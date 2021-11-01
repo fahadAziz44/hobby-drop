@@ -35,8 +35,7 @@ const Login = () => {
     })
 
     if (res.status === 201) {
-      const userObj = await res.json()
-      router.push('http://localhost:3000/user', userObj.user.firstName)
+      router.push('http://localhost:3000/user')
     } else {
       const nost = await res.text()
       // eslint-disable-next-line no-console
