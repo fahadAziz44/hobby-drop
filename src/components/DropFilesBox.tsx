@@ -4,6 +4,8 @@ import { Container, Icon, useToast } from '@chakra-ui/react'
 import Dropzone from 'react-dropzone'
 import { AiOutlineUpload } from 'react-icons/ai'
 
+import { fetchGetJSON, fetchPostJSON } from 'src/utils/api-helpers'
+
 interface UserProps {}
 
 const DropFilesbox = (_props: UserProps) => {
@@ -12,46 +14,51 @@ const DropFilesbox = (_props: UserProps) => {
     if (!acceptedFiles.length) {
       return
     }
-    const file: File = acceptedFiles[0] as File
-    const filename = encodeURIComponent(file.name)
-    const res = await fetch(`/api/upload-url?file=${filename}`)
-    const { url, fields } = await res.json()
-    const formData = new FormData()
-    Object.entries({ ...fields, file }).forEach(([key, value]) => {
-      formData.append(key, value as string)
-    })
+    try {
+      const file: File = acceptedFiles[0] as File
+      const filename = encodeURIComponent(file.name)
+      const { url, fields } = await fetchGetJSON(
+        `/api/upload-url?file=${filename}`
+      )
+      const formData = new FormData()
+      Object.entries({ ...fields, file }).forEach(([key, value]) => {
+        formData.append(key, value as string)
+      })
 
-    const upload = await fetch(url, {
-      method: 'POST',
-      body: formData,
-    })
-
-    if (upload.ok) {
-      const fileData = {
-        name: filename,
-        url: upload.url,
-        type: file.type,
-      }
-      const addFileResp = await fetch('/api/upload-url', {
+      const upload = await fetch(url, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(fileData),
+        body: formData,
       })
-      await addFileResp.json()
+
+      if (upload.ok) {
+        try {
+          const fileData = {
+            name: filename,
+            url: upload.url,
+            type: file.type,
+          }
+          const addFileResp = await fetchPostJSON(
+            `/api/upload-url?file=${filename}`,
+            fileData
+          )
+          console.log('response from our api: ', addFileResp)
+          toast({
+            title: 'Uploaded successfully',
+            description: `upload successfull`,
+            status: 'success',
+            duration: 9000,
+            isClosable: true,
+          })
+        } catch (er: any) {
+          throw new Error(er.message || 'error after uploading: ')
+        }
+      } else {
+        throw new Error('error while uploading to S3 bucket')
+      }
+    } catch (er: any) {
       toast({
-        title: 'Uploaded successfully',
-        description: `upload successfull`,
-        status: 'success',
-        duration: 9000,
-        isClosable: true,
-      })
-    } else {
-      console.error('Upload failed.: ', upload)
-      toast({
-        title: 'Account Created',
-        description: `upload error`,
+        title: 'Error Uploading File',
+        description: `${er.message || 'Error occured while'}`,
         status: 'error',
         duration: 9000,
         isClosable: true,
