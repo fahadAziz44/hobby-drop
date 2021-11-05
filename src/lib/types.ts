@@ -17,3 +17,11 @@ export interface PostUploadUrlResponse extends NextApiResponse {
   name: string
   url: string
 }
+
+export interface GetUserFilesResponse {
+  id: number
+  url: string
+  name: string
+  fileName: string
+  type: string
+}

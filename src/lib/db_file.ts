@@ -1,5 +1,7 @@
 import prisma from 'src/lib/prisma'
 
+import { GetUserFilesResponse } from './types'
+
 export async function createFile({
   userId,
   name,
@@ -30,7 +32,11 @@ export async function createFile({
   }
 }
 
-export const findFileByUser = async ({ userId }: { userId: string }) => {
+export const findImagesByUser = async ({
+  userId,
+}: {
+  userId: string
+}): Promise<GetUserFilesResponse[]> => {
   try {
     const Userfiles = await prisma.file.findMany({
       where: {
@@ -38,6 +44,16 @@ export const findFileByUser = async ({ userId }: { userId: string }) => {
           id: Number(userId),
         },
         uploaded: true,
+        type: {
+          contains: 'image',
+        },
+      },
+      select: {
+        id: true,
+        url: true,
+        name: true,
+        fileName: true,
+        type: true,
       },
     })
     return Userfiles

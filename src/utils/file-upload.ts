@@ -1,13 +1,13 @@
 import aws from 'aws-sdk'
 
-export const getS3UploadPreSignedUrl = async (fileName: string) => {
-  aws.config.update({
-    accessKeyId: process.env.AWS_ACCESS_KEY,
-    secretAccessKey: process.env.AWS_SECRET_KEY,
-    region: 'eu-central-1',
-    signatureVersion: 'v4',
-  })
+aws.config.update({
+  accessKeyId: process.env.AWS_ACCESS_KEY,
+  secretAccessKey: process.env.AWS_SECRET_KEY,
+  region: process.env.AWS_REGION,
+  signatureVersion: 'v4',
+})
 
+export const getS3UploadPreSignedUrl = async (fileName: string) => {
   const s3 = new aws.S3()
   const post = await s3.createPresignedPost({
     Bucket: process.env.AWS_BUCKET_NAME,
@@ -20,4 +20,11 @@ export const getS3UploadPreSignedUrl = async (fileName: string) => {
     ],
   })
   return post
+}
+
+export const getS3FileUrl = (fileName: string) => {
+  const s3 = new aws.S3()
+  const params = { Bucket: process.env.AWS_BUCKET_NAME, Key: fileName }
+  const url = s3.getSignedUrl('getObject', params)
+  return url
 }
