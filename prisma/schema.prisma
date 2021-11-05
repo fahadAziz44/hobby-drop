@@ -26,7 +26,10 @@ model User {
 model File {
   id        Int     @default(autoincrement()) @id
   name     String
-  address   String
+  fileName  String
+  type   String
+  url    String
+  uploaded    Boolean?
   author    User?   @relation(fields: [authorId], references: [id])
   authorId  Int?
   @@map(name: "files")
