@@ -4,6 +4,11 @@ import { Container, Icon, useToast } from '@chakra-ui/react'
 import Dropzone from 'react-dropzone'
 import { AiOutlineUpload } from 'react-icons/ai'
 
+import {
+  GetUploadUrlResponseBody,
+  PostUploadUrlReqBody,
+  PostUploadUrlResponse,
+} from 'src/lib/types'
 import { fetchGetJSON, fetchPostJSON } from 'src/utils/api-helpers'
 
 interface UserProps {}
@@ -17,14 +22,18 @@ const DropFilesbox = (_props: UserProps) => {
     try {
       const file: File = acceptedFiles[0] as File
       const filename = encodeURIComponent(file.name)
-      const { url, fields } = await fetchGetJSON(
-        `/api/upload-url?file=${filename}`
+
+      // Get a presigend url from API to upload file
+      // Make a File entity in db with upload confirmation not confirmed yet
+      const { url, fields, id } = await fetchGetJSON<GetUploadUrlResponseBody>(
+        `/api/upload-url?file=${filename}&type=${file.type}`
       )
       const formData = new FormData()
       Object.entries({ ...fields, file }).forEach(([key, value]) => {
         formData.append(key, value as string)
       })
 
+      // upload the file directly to s3
       const upload = await fetch(url, {
         method: 'POST',
         body: formData,
@@ -32,16 +41,18 @@ const DropFilesbox = (_props: UserProps) => {
 
       if (upload.ok) {
         try {
-          const fileData = {
+          // after successful upload to s3.
+          // confirm that upload has been done
+          const fileData: PostUploadUrlReqBody = {
             name: filename,
             url: upload.url,
             type: file.type,
+            id,
           }
-          const addFileResp = await fetchPostJSON(
-            `/api/upload-url?file=${filename}`,
+          await fetchPostJSON<PostUploadUrlReqBody, PostUploadUrlResponse>(
+            `/api/upload-url`,
             fileData
           )
-          console.log('response from our api: ', addFileResp)
           toast({
             title: 'Uploaded successfully',
             description: `upload successfull`,
