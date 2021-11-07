@@ -25,3 +25,12 @@ export interface GetUserFilesResponse {
   fileName: string
   type: string
 }
+
+export interface GetUserResponse {
+  id: number
+  email: string
+  firstName: string
+  lastName: string | null
+  createdAt: Date
+  updatedAt: Date
+}

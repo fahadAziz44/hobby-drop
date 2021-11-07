@@ -16,7 +16,7 @@ model User {
   lastName      String?   @map(name: "last_name")
   hash      String   @map(name: "hash")
   salt      String
-  email         String?   @unique
+  email         String   @unique
   createdAt     DateTime  @default(now()) @map(name: "created_at")
   updatedAt     DateTime  @updatedAt @map(name: "updated_at")
   files         File[]
