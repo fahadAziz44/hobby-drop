@@ -19,3 +19,9 @@ a:hover {
 .content ul {
   @apply my-6;
 }
+
+@layer components{
+  .user-menu-item {
+    @apply text-sm subpixel-antialiased
+  }
+}
