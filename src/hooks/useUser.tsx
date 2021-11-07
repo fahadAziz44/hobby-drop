@@ -6,7 +6,7 @@ import useSWR from 'swr'
 import { GetUserResponse } from 'src/lib/types'
 import { fetchGetJSON } from 'src/utils/api-helpers'
 
-export default function useUser({ redirectTo }: { redirectTo: string }) {
+export default function useUser({ redirectTo }: { redirectTo?: string }) {
   const { data, error } = useSWR<{ user: GetUserResponse }>(
     '/api/user',
     fetchGetJSON
