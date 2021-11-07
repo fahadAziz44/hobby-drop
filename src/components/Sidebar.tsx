@@ -8,7 +8,7 @@ import SidebarButton from './SidebarButton'
 const Sidebar: React.FC = () => (
   <div
     className="
-      fixed top-0 h-screen left-0 w-16
+      fixed top-12 h-screen left-0 w-16 
     bg-gray-900 text-white
       flex flex-col
       shadow-lg text-2xl

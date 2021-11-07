@@ -18,7 +18,7 @@ const SidebarButton = ({
         text-teal-500 hover:text-white
         rounded-3x1 hover:rounded-xl
         transition-all duration-300 ease-linear
-        cursor:pointer
+        cursor-pointer
         flex justify-center align-middle
         "
     >
