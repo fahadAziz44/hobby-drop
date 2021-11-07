@@ -15,6 +15,7 @@ import { BiLogOutCircle } from 'react-icons/bi'
 
 import DropFilesbox from 'src/components/DropFilesBox'
 import auth from 'src/middleware/auth'
+import InSession from 'src/templates/InSession'
 
 interface UserProps {
   id: string
@@ -40,40 +41,42 @@ const UserPage = ({ id, firstName, lastName, email, error }: UserProps) => {
     }
   }
   return (
-    <Container maxW="xl" centerContent bg="gray.100">
-      {error && (
-        <Alert status="error">
-          <AlertIcon />
-          {error}
-        </Alert>
-      )}
-      {!error && (
-        <>
-          <Box padding="4" maxW="3xl">
-            ID: {id}
-          </Box>
-          <Box padding="4" maxW="3xl">
-            First Name: {firstName}
-          </Box>
-          <Box padding="4" maxW="3xl">
-            Last Name: {lastName}
-          </Box>
-          <Box padding="4" maxW="3xl">
-            Email: {email}
-          </Box>
-          <Button
-            rightIcon={<Icon as={BiLogOutCircle} />}
-            colorScheme="teal"
-            variant="outline"
-            onClick={onLogoutClick}
-            isLoading={logoutLoading}
-          >
-            Logout
-          </Button>
-          <DropFilesbox />
-        </>
-      )}
-    </Container>
+    <InSession>
+      <Container maxW="xl" centerContent bg="gray.100">
+        {error && (
+          <Alert status="error">
+            <AlertIcon />
+            {error}
+          </Alert>
+        )}
+        {!error && (
+          <>
+            <Box padding="4" maxW="3xl">
+              ID: {id}
+            </Box>
+            <Box padding="4" maxW="3xl">
+              First Name: {firstName}
+            </Box>
+            <Box padding="4" maxW="3xl">
+              Last Name: {lastName}
+            </Box>
+            <Box padding="4" maxW="3xl">
+              Email: {email}
+            </Box>
+            <Button
+              rightIcon={<Icon as={BiLogOutCircle} />}
+              colorScheme="teal"
+              variant="outline"
+              onClick={onLogoutClick}
+              isLoading={logoutLoading}
+            >
+              Logout
+            </Button>
+            <DropFilesbox />
+          </>
+        )}
+      </Container>
+    </InSession>
   )
 }
 
