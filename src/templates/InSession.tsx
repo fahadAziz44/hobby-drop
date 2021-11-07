@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 
 import { Box, SkeletonCircle, SkeletonText } from '@chakra-ui/react'
 
@@ -6,9 +6,23 @@ import Sidebar from 'src/components/Sidebar'
 import UpperPannel from 'src/components/UpperPannel'
 import useUser from 'src/hooks/useUser'
 
+// InSession Component is protected for only authenticated users.
+// It fetches the user and pass user as prop to children
 const InSession = ({ children }: React.PropsWithChildren<{}>) => {
   const { loading, user } = useUser({ redirectTo: '/login' })
-  console.log('user at inSession template: ', user)
+
+  const childrenWithProps = useMemo(
+    () =>
+      user
+        ? React.Children.map(children, (child) => {
+            if (React.isValidElement(child)) {
+              return React.cloneElement(child, { user })
+            }
+            return child
+          })
+        : children,
+    [children, user]
+  )
   return (
     <>
       {loading ? (
@@ -22,8 +36,8 @@ const InSession = ({ children }: React.PropsWithChildren<{}>) => {
         <div className="w-screen h-screen">
           <Sidebar />
           <div className="right-content">
-            <UpperPannel />
-            <div className="pt-12">{children}</div>
+            <UpperPannel user={user} />
+            <div className="pt-12">{childrenWithProps}</div>
           </div>
         </div>
       )}
