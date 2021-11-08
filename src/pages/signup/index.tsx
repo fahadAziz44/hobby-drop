@@ -47,11 +47,9 @@ const SignUp = () => {
         duration: 9000,
         isClosable: true,
       })
-      router.push('http://localhost:3000/user')
+      router.push('/user')
     } else {
       const nost = await res.text()
-      // eslint-disable-next-line no-console
-      console.error('error occured ', nost)
       toast({
         title: 'Signup Error',
         description: nost,

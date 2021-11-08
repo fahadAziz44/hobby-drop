@@ -35,11 +35,9 @@ const Login = () => {
     })
 
     if (res.status === 201) {
-      router.push('http://localhost:3000/user')
+      router.push('/user')
     } else {
       const nost = await res.text()
-      // eslint-disable-next-line no-console
-      console.error('error occured ', nost)
       toast({
         title: 'Login Error',
         description: nost,

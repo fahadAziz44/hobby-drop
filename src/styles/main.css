@@ -32,3 +32,6 @@ a:hover {
   width: calc(100vw - theme('spacing[16]'));
 }
 
+.bold {
+  @apply subpixel-antialiased font-medium
+}

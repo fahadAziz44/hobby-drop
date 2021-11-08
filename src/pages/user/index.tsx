@@ -1,17 +1,9 @@
-import React, { useState } from 'react'
+import React from 'react'
 
-import {
-  Alert,
-  AlertIcon,
-  Box,
-  Button,
-  Container,
-  Icon,
-} from '@chakra-ui/react'
+import { Alert, AlertIcon, Avatar, Box, Icon } from '@chakra-ui/react'
 import { GetServerSideProps } from 'next'
 import nc from 'next-connect'
-import router from 'next/router'
-import { BiLogOutCircle } from 'react-icons/bi'
+import { GiAnimalSkull } from 'react-icons/gi'
 
 import DropFilesbox from 'src/components/DropFilesBox'
 import auth from 'src/middleware/auth'
@@ -23,26 +15,19 @@ interface UserProps {
   lastName?: string
   email: string
   error?: string
+  createdAt: string
 }
 
-const UserPage = ({ id, firstName, lastName, email, error }: UserProps) => {
-  const [logoutLoading, setLogoutLoading] = useState(false)
-  const onLogoutClick = async () => {
-    setLogoutLoading(true)
-    const res = await fetch('/api/logout')
-
-    setLogoutLoading(false)
-    if (res.status === 204) {
-      router.push('http://localhost:3000/login')
-    } else {
-      const nost = await res.text()
-      // eslint-disable-next-line no-console
-      console.error('error occured ', nost)
-    }
-  }
+const UserPage = ({
+  firstName,
+  lastName,
+  email,
+  error,
+  createdAt,
+}: UserProps) => {
   return (
     <InSession>
-      <Container maxW="xl" centerContent bg="gray.100">
+      <div className="w-full p-9 bg-gray-100">
         {error && (
           <Alert status="error">
             <AlertIcon />
@@ -50,32 +35,39 @@ const UserPage = ({ id, firstName, lastName, email, error }: UserProps) => {
           </Alert>
         )}
         {!error && (
-          <>
-            <Box padding="4" maxW="3xl">
-              ID: {id}
-            </Box>
-            <Box padding="4" maxW="3xl">
-              First Name: {firstName}
-            </Box>
-            <Box padding="4" maxW="3xl">
-              Last Name: {lastName}
-            </Box>
-            <Box padding="4" maxW="3xl">
-              Email: {email}
-            </Box>
-            <Button
-              rightIcon={<Icon as={BiLogOutCircle} />}
-              colorScheme="teal"
-              variant="outline"
-              onClick={onLogoutClick}
-              isLoading={logoutLoading}
-            >
-              Logout
-            </Button>
+          <div className="flex justify-around">
+            <div className="flex p-16 gap-x-8 items-center">
+              <Avatar
+                className="
+                  bg-grey-800 
+                text-teal-500
+                "
+                size="2xl"
+                bg={'teal.500'}
+                icon={<Icon as={GiAnimalSkull} w={20} h={20} />}
+              />
+              <div>
+                <Box padding="4" maxW="3xl">
+                  <span className="bold">Name: </span>
+                  {`${firstName} ${lastName || ''}`}
+                </Box>
+                <Box padding="4" maxW="3xl">
+                  <span className="bold">Email:</span> {email}
+                </Box>
+                <Box padding="4" maxW="3xl">
+                  <span className="bold">Joined:</span>
+                  {new Date(createdAt).toLocaleDateString(undefined, {
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric',
+                  })}
+                </Box>
+              </div>
+            </div>
             <DropFilesbox />
-          </>
+          </div>
         )}
-      </Container>
+      </div>
     </InSession>
   )
 }
@@ -95,6 +87,7 @@ export const getServerSideProps: GetServerSideProps = async ({
           firstName: user.firstName,
           lastName: user.lastName,
           email: user.email,
+          createdAt: String(user.createdAt),
         },
       }
     }

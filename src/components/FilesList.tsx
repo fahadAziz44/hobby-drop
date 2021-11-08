@@ -2,6 +2,7 @@ import React, { useEffect } from 'react'
 
 import { CircularProgress } from '@chakra-ui/react'
 import { observer } from 'mobx-react-lite'
+import Link from 'next/link'
 
 import { useMst } from 'src/stores/Root'
 
@@ -22,6 +23,15 @@ const FilesList = observer(() => {
     return (
       <div className="w-full h-full flex items-center justify-center">
         <CircularProgress isIndeterminate color="green.300" />
+      </div>
+    )
+  if (gallery.state === 'done' && !data.length)
+    return (
+      <div className="w-full h-full flex flex-col items-center justify-center">
+        <div className="bold">Nothing uploaded</div>
+        <Link href="/" passHref>
+          Go to main page to upload Image
+        </Link>
       </div>
     )
 
