@@ -1,18 +1,14 @@
 import React from 'react'
 
-import { Container } from '@chakra-ui/react'
-
 import FilesList from 'src/components/FilesList'
 import InSession from 'src/templates/InSession'
 
-const UserPage = () => {
+const Images = () => {
   return (
     <InSession>
-      <Container maxW="xl" centerContent bg="gray.100">
-        <FilesList />
-      </Container>
+      <FilesList />
     </InSession>
   )
 }
 
-export default UserPage
+export default Images

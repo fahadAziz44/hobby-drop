@@ -37,7 +37,7 @@ const InSession = ({ children }: React.PropsWithChildren<{}>) => {
           <Sidebar />
           <div className="right-content">
             <UpperPannel user={user} />
-            <div className="pt-12">{childrenWithProps}</div>
+            <div className="insession-content-area">{childrenWithProps}</div>
           </div>
         </div>
       )}
