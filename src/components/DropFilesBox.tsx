@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { Container, Icon, useToast } from '@chakra-ui/react'
+import { Icon, useToast } from '@chakra-ui/react'
 import Dropzone from 'react-dropzone'
 import { AiOutlineUpload } from 'react-icons/ai'
 
@@ -77,11 +77,14 @@ const DropFilesbox = (_props: UserProps) => {
     }
   }
   return (
-    <Container
-      className="w-full max-w-2xl h-80 flex justify-center content-center"
-      maxW="xl"
-      centerContent
-      bg="gray.100"
+    <div
+      className="
+        w-full max-w-2xl h-80
+        flex justify-center content-center
+        bg-gray-400 hover:bg-gray-900
+        hover:text-teal-500 text-gray-900
+        transition-all duration-200 ease-linear
+        "
     >
       <Dropzone
         onDrop={(acceptedFiles) => uploadFiles(acceptedFiles)}
@@ -98,13 +101,13 @@ const DropFilesbox = (_props: UserProps) => {
               <input {...getInputProps()} />
               <Icon as={AiOutlineUpload} w={16} h={16} />
               <p className="py-4">
-                Drag n drop some files here, or click to select files
+                Drag n drop file here, or click to select file
               </p>
             </div>
           </section>
         )}
       </Dropzone>
-    </Container>
+    </div>
   )
 }
 export default DropFilesbox
