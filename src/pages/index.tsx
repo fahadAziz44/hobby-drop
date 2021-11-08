@@ -35,7 +35,7 @@ const UserPage = ({
           </Alert>
         )}
         {!error && (
-          <div className="flex justify-around">
+          <div className="flex flex-col justify-center items-center md:flex-row md:justify-around">
             <div className="flex p-16 gap-x-8 items-center">
               <Avatar
                 className="

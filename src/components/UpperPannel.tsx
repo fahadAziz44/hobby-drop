@@ -35,14 +35,14 @@ const UpperPannel: React.FC<UpperPannelProps> = ({ user }) => {
   return (
     <div
       className="
-      fixed top-0 w-screen right-0 h-12
+      fixed top-0 w-full right-0 h-12
     bg-gray-900
       flex justify-between align-middle items-center
       shadow-lg text-2xl
       px-2 z-10
     "
     >
-      <Link href="/user" passHref>
+      <Link href="/" passHref>
         <div className="pl-4 cursor-pointer text-teal-500 hover:text-white">
           <Icon as={GiDirewolf} h={8} w={8} />
         </div>

@@ -101,7 +101,7 @@ const DropFilesbox = (_props: UserProps) => {
             >
               <input {...getInputProps()} />
               <AiOutlineUpload size={100} />
-              <p className="py-4">
+              <p className="py-4 text-center">
                 Drag n drop file here, or click to select file
               </p>
             </div>
