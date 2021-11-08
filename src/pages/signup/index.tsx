@@ -12,6 +12,7 @@ import {
 import { useRouter } from 'next/router'
 import { useForm, SubmitHandler } from 'react-hook-form'
 
+import useUser from 'src/hooks/useUser'
 import SinglePageForm from 'src/templates/SinglePageForm'
 
 interface ISignupFormInputs {
@@ -31,6 +32,7 @@ const SignUp = () => {
   } = useForm<ISignupFormInputs>()
   const router = useRouter()
   const toast = useToast()
+  useUser({ redirectTo: '/', redirectIfUser: true })
   const onSubmit: SubmitHandler<ISignupFormInputs> = async (data) => {
     const res = await fetch('/api/signup', {
       method: 'POST',

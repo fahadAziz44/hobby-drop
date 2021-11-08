@@ -13,6 +13,7 @@ import Link from 'next/link'
 import router from 'next/router'
 import { useForm, SubmitHandler } from 'react-hook-form'
 
+import useUser from 'src/hooks/useUser'
 import SinglePageForm from 'src/templates/SinglePageForm'
 
 interface ILoginFormInputs {
@@ -27,6 +28,7 @@ const Login = () => {
     formState: { errors },
   } = useForm<ILoginFormInputs>()
   const toast = useToast()
+  useUser({ redirectTo: '/', redirectIfUser: true })
 
   const onSubmit: SubmitHandler<ILoginFormInputs> = async (data) => {
     const res = await fetch('/api/login', {
