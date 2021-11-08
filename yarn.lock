@@ -3658,6 +3658,21 @@ minimist@^1.1.1, minimist@^1.2.0:
   resolved "https://registry.yarnpkg.com/minimist/-/minimist-1.2.5.tgz#67d66014b66a6a8aaa0c083c5fd58df4e4e97602"
   integrity sha512-FM9nNUYrRBAELZQT3xeZQ7fmMOBg6nWNmJKTcgsJeaLstP/UODVpGsr5OhXhhXg6f+qtJ8uiZ+PUxkDWcgIXLw==
 
+mobx-react-lite@^3.2.2:
+  version "3.2.2"
+  resolved "https://registry.yarnpkg.com/mobx-react-lite/-/mobx-react-lite-3.2.2.tgz#cee5f09e6b0e4d2705d87276baf1de74d997fa33"
+  integrity sha512-FxJJMqmHcnQYOVVs2DdjNHioGlFsXF5/9VHztS9NAfIT3DYrxNZzVi119Zr/OmlWKkWNkAsssSNzPkqautfL4A==
+
+mobx-state-tree@^5.0.4:
+  version "5.0.4"
+  resolved "https://registry.yarnpkg.com/mobx-state-tree/-/mobx-state-tree-5.0.4.tgz#b2628436915f5eba125cc9d2bc8bc3ad58b8762c"
+  integrity sha512-YJnjW4hy5+kcbZdRJAmqK2HrRYl2Xjh66dVRlNRBknJiNHzYvQ5qKFp096jXlP/0XWu5T3yn5JBgnLeGbGTVKA==
+
+mobx@^6.3.6:
+  version "6.3.6"
+  resolved "https://registry.yarnpkg.com/mobx/-/mobx-6.3.6.tgz#3192dea21ae8213d04a0df5c98a5ca164ed29ecd"
+  integrity sha512-TeCp8BTco5cmXKY7Zt5VSL5fHBEAHTSA6xs+KWmcxi3cFN1C+Xqs2m3giyGT/e6TSjtdDysVX5+cCZZhEyiJmA==
+
 modern-normalize@^1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/modern-normalize/-/modern-normalize-1.1.0.tgz#da8e80140d9221426bd4f725c6e11283d34f90b7"
