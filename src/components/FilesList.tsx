@@ -1,31 +1,44 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 
 import { CircularProgress } from '@chakra-ui/react'
-import useSWR from 'swr'
+import { observer } from 'mobx-react-lite'
 
-import { GetUserFilesResponse } from 'src/lib/types'
-import { fetchGetJSON } from 'src/utils/api-helpers'
+import { useMst } from 'src/stores/Root'
 
 import ImageItem from './ImageItem'
 
-interface FileProps {}
+const FilesList = observer(() => {
+  const { gallery } = useMst()
 
-const FilesList = (_props: FileProps) => {
-  const { data, error } = useSWR<GetUserFilesResponse[]>(
-    '/api/files',
-    fetchGetJSON
-  )
+  useEffect(() => {
+    gallery.fetchGalleryItems()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
-  if (error) return <div>Failed to load</div>
-  if (!data) return <CircularProgress isIndeterminate color="green.300" />
+  const data = gallery.items
 
-  const childElements = data.map(({ id, url, name }: GetUserFilesResponse) => (
-    <ImageItem id={String(id)} src={url} name={name} key={id} />
+  if (gallery.state === 'error') return <div>Failed to load</div>
+  if (gallery.state === 'pending')
+    return (
+      <div className="w-full h-full flex items-center justify-center">
+        <CircularProgress isIndeterminate color="green.300" />
+      </div>
+    )
+
+  const childElements = data.map((item) => (
+    <ImageItem
+      key={item.id}
+      id={item.id}
+      name={item.name}
+      url={item.url}
+      onRemove={() => item.remove()}
+      loading={item.loading}
+    />
   ))
 
   return (
     <div className="w-full h-full flex flex-wrap gap-4">{childElements}</div>
   )
-}
+})
 
 export default FilesList

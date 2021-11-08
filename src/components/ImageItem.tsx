@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react'
+import React, { useCallback } from 'react'
 
 import { Spinner, Menu, MenuButton, MenuList, MenuItem } from '@chakra-ui/react'
 import { AiOutlineDelete } from 'react-icons/ai'
@@ -7,17 +7,21 @@ import { BsThreeDots } from 'react-icons/bs'
 interface ImageItemProps {
   id: string
   name: string
-  src: string
+  url: string
+  onRemove: () => void
+  loading: boolean
 }
 
-const ImageItem: React.FC<ImageItemProps> = ({ id: _id, name, src }) => {
-  const [deleteLoading, setLoading] = useState(false)
+const ImageItem: React.FC<ImageItemProps> = ({
+  id: _id,
+  name,
+  url,
+  onRemove,
+  loading,
+}) => {
   const onDeleteClick = useCallback(() => {
-    setLoading(true)
-    setTimeout(() => {
-      setLoading(false)
-    }, 2000)
-  }, [])
+    onRemove()
+  }, [onRemove])
 
   return (
     <div
@@ -34,10 +38,10 @@ const ImageItem: React.FC<ImageItemProps> = ({ id: _id, name, src }) => {
         transition-all duration-100 ease-linear
         rounded-md
         flex justify-center align-middle"
-        src={src}
+        src={url}
         alt={name}
       />
-      <Menu>
+      <Menu closeOnSelect={false}>
         <MenuButton
           className="
         bg-gray-200 hover:bg-gray-500 shadow-xl
@@ -53,7 +57,7 @@ const ImageItem: React.FC<ImageItemProps> = ({ id: _id, name, src }) => {
           <MenuItem
             className="user-menu-item z-50"
             onClick={onDeleteClick}
-            icon={deleteLoading ? <Spinner size="sm" /> : <AiOutlineDelete />}
+            icon={loading ? <Spinner size="sm" /> : <AiOutlineDelete />}
             iconSpacing={2}
           >
             Delete Item
