@@ -14,7 +14,7 @@ const Sidebar: React.FC = () => (
       shadow-lg text-2xl
     "
   >
-    <SidebarButton href="/user">
+    <SidebarButton href="/">
       <Icon as={AiOutlineHome} w={10} h={10} />
     </SidebarButton>
     <SidebarButton href="/images">

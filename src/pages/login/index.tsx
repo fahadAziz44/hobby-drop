@@ -36,7 +36,7 @@ const Login = () => {
     })
 
     if (res.status === 201) {
-      router.push('/user')
+      router.push('/')
     } else {
       const nost = await res.text()
       toast({

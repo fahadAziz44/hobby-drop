@@ -47,7 +47,7 @@ const SignUp = () => {
         duration: 9000,
         isClosable: true,
       })
-      router.push('/user')
+      router.push('/')
     } else {
       const nost = await res.text()
       toast({
