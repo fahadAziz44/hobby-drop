@@ -39,7 +39,7 @@ const UpperPannel: React.FC<UpperPannelProps> = ({ user }) => {
     bg-gray-900
       flex justify-between align-middle items-center
       shadow-lg text-2xl
-      px-2
+      px-2 z-10
     "
     >
       <Link href="/user" passHref>
