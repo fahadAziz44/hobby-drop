@@ -9,6 +9,7 @@ import {
   FormLabel,
   Input,
 } from '@chakra-ui/react'
+import Link from 'next/link'
 import router from 'next/router'
 import { useForm, SubmitHandler } from 'react-hook-form'
 
@@ -87,6 +88,11 @@ const Login = () => {
           </Button>
         </Center>
       </form>
+      <Link href="/signup" passHref>
+        <div className="w-full flex justify-center text-sm text-blue-300 hover:text-blue-600 cursor-pointer">
+          Signup here
+        </div>
+      </Link>
     </SinglePageForm>
   )
 }
