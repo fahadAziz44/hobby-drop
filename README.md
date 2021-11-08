@@ -1,5 +1,11 @@
 An web-app which allows user to login/signup and upload files to s3 and manage those files.
 
+To run the project.
+1. Clone the repo.
+2. Run `yarn` to add missing dependencies
+3. Add environment variables mentioned in `.env` file.(each explained with comment)
+4. Run `yarn dev`
+
 Some of the parts of this app, along with benefits:
 
  1. **Typescript** for strongly typed code and better developer experience.
