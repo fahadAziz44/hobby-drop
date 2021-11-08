@@ -1,186 +1,109 @@
-import { useRouter } from 'next/router';
+import React from 'react'
 
-import { Meta } from '../layout/Meta';
-import { Main } from '../templates/Main';
+import { Alert, AlertIcon, Avatar, Box, Icon } from '@chakra-ui/react'
+import { GetServerSideProps } from 'next'
+import nc from 'next-connect'
+import { GiAnimalSkull } from 'react-icons/gi'
 
-const Index = () => {
-  const router = useRouter();
+import DropFilesbox from 'src/components/DropFilesBox'
+import auth from 'src/middleware/auth'
+import InSession from 'src/templates/InSession'
 
+interface UserProps {
+  id: string
+  firstName: string
+  lastName?: string
+  email: string
+  error?: string
+  createdAt: string
+}
+
+const UserPage = ({
+  firstName,
+  lastName,
+  email,
+  error,
+  createdAt,
+}: UserProps) => {
   return (
-    <Main
-      meta={
-        <Meta
-          title="Next.js Boilerplate Presentation"
-          description="Next js Boilerplate is the perfect starter code for your project. Build your React application with the Next.js framework."
-        />
-      }
-    >
-      <a href="https://github.com/ixartz/Next-js-Boilerplate">
-        <img
-          src={`${router.basePath}/assets/images/nextjs-starter-banner.png`}
-          alt="Nextjs starter banner"
-        />
-      </a>
-      <h1 className="font-bold text-2xl">
-        Boilerplate code for your Nextjs project with Tailwind CSS
-      </h1>
-      <p>
-        <span role="img" aria-label="rocket">
-          🚀
-        </span>{' '}
-        Next.js Boilerplate is a starter code for your Next js project by
-        putting developer experience first .{' '}
-        <span role="img" aria-label="zap">
-          ⚡️
-        </span>{' '}
-        Made with Next.js, TypeScript, ESLint, Prettier, Husky, Lint-Staged,
-        VSCode, Netlify, PostCSS, Tailwind CSS.
-      </p>
-      <h2 className="font-semibold text-lg">Next js Boilerplate Features</h2>
-      <p>Developer experience first:</p>
-      <ul>
-        <li>
-          <span role="img" aria-label="fire">
-            🔥
-          </span>{' '}
-          <a href="https://nextjs.org" rel="nofollow">
-            Next.js
-          </a>{' '}
-          for Static Site Generator
-        </li>
-        <li>
-          <span role="img" aria-label="art">
-            🎨
-          </span>{' '}
-          Integrate with{' '}
-          <a href="https://tailwindcss.com" rel="nofollow">
-            Tailwind CSS
-          </a>
-        </li>
-        <li>
-          <span role="img" aria-label="nail_care">
-            💅
-          </span>{' '}
-          PostCSS for processing Tailwind CSS
-        </li>
-        <li>
-          <span role="img" aria-label="tada">
-            🎉
-          </span>{' '}
-          Type checking Typescript
-        </li>
-        <li>
-          <span role="img" aria-label="pencil2">
-            ✏️
-          </span>{' '}
-          Linter with{' '}
-          <a href="https://eslint.org" rel="nofollow">
-            ESLint
-          </a>
-        </li>
-        <li>
-          <span role="img" aria-label="hammer_and_wrench">
-            🛠
-          </span>{' '}
-          Code Formatter with{' '}
-          <a href="https://prettier.io" rel="nofollow">
-            Prettier
-          </a>
-        </li>
-        <li>
-          <span role="img" aria-label="fox_face">
-            🦊
-          </span>{' '}
-          Husky for Git Hooks
-        </li>
-        <li>
-          <span role="img" aria-label="no_entry_sign">
-            🚫
-          </span>{' '}
-          Lint-staged for running linters on Git staged files
-        </li>
-        <li>
-          <span role="img" aria-label="no_entry_sign">
-            🗂
-          </span>{' '}
-          VSCode configuration: Debug, Settings, Tasks and extension for
-          PostCSS, ESLint, Prettier, TypeScript
-        </li>
-        <li>
-          <span role="img" aria-label="robot">
-            🤖
-          </span>{' '}
-          SEO metadata, JSON-LD and Open Graph tags with Next SEO
-        </li>
-        <li>
-          <span role="img" aria-label="robot">
-            ⚙️
-          </span>{' '}
-          <a
-            href="https://www.npmjs.com/package/@next/bundle-analyzer"
-            rel="nofollow"
-          >
-            Bundler Analyzer
-          </a>
-        </li>
-        <li>
-          <span role="img" aria-label="rainbow">
-            🌈
-          </span>{' '}
-          Include a FREE minimalist theme
-        </li>
-        <li>
-          <span role="img" aria-label="hundred">
-            💯
-          </span>{' '}
-          Maximize lighthouse score
-        </li>
-      </ul>
-      <p>Built-in feature from Next.js:</p>
-      <ul>
-        <li>
-          <span role="img" aria-label="coffee">
-            ☕
-          </span>{' '}
-          Minify HTML &amp; CSS
-        </li>
-        <li>
-          <span role="img" aria-label="dash">
-            💨
-          </span>{' '}
-          Live reload
-        </li>
-        <li>
-          <span role="img" aria-label="white_check_mark">
-            ✅
-          </span>{' '}
-          Cache busting
-        </li>
-      </ul>
-      <h2 className="font-semibold text-lg">Our Stater code Philosophy</h2>
-      <ul>
-        <li>Minimal code</li>
-        <li>SEO-friendly</li>
-        <li>
-          <span role="img" aria-label="rocket">
-            🚀
-          </span>{' '}
-          Production-ready
-        </li>
-      </ul>
-      <p>
-        Check our GitHub project for more information about{' '}
-        <a href="https://github.com/ixartz/Next-js-Boilerplate">
-          Nextjs Boilerplate
-        </a>
-        . You can also browse our{' '}
-        <a href="https://creativedesignsguru.com/category/nextjs/">
-          Premium NextJS Templates
-        </a>{' '}
-        on our website to support this project.
-      </p>
-    </Main>
-  );
-};
+    <InSession>
+      <div className="w-full p-9 bg-gray-100">
+        {error && (
+          <Alert status="error">
+            <AlertIcon />
+            {error}
+          </Alert>
+        )}
+        {!error && (
+          <div className="flex justify-around">
+            <div className="flex p-16 gap-x-8 items-center">
+              <Avatar
+                className="
+                  bg-grey-800 
+                text-teal-500
+                "
+                size="2xl"
+                bg={'teal.500'}
+                icon={<Icon as={GiAnimalSkull} w={20} h={20} />}
+              />
+              <div>
+                <Box padding="4" maxW="3xl">
+                  <span className="bold">Name: </span>
+                  {`${firstName} ${lastName || ''}`}
+                </Box>
+                <Box padding="4" maxW="3xl">
+                  <span className="bold">Email:</span> {email}
+                </Box>
+                <Box padding="4" maxW="3xl">
+                  <span className="bold">Joined:</span>
+                  {new Date(createdAt).toLocaleDateString(undefined, {
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric',
+                  })}
+                </Box>
+              </div>
+            </div>
+            <DropFilesbox />
+          </div>
+        )}
+      </div>
+    </InSession>
+  )
+}
 
-export default Index;
+export const getServerSideProps: GetServerSideProps = async ({
+  req,
+  res,
+}: any) => {
+  const handler = nc().use(auth)
+  try {
+    await handler.run(req, res)
+    const { user } = req
+    if (user) {
+      return {
+        props: {
+          id: user.id,
+          firstName: user.firstName,
+          lastName: user.lastName,
+          email: user.email,
+          createdAt: String(user.createdAt),
+        },
+      }
+    }
+    throw new Error('user not found')
+  } catch (error: any) {
+    const errorMessage =
+      error instanceof Error ? error.message || error.name : error
+    // eslint-disable-next-line no-console
+    console.error('Error occured: ', errorMessage)
+
+    return {
+      props: {
+        error: errorMessage,
+      },
+    }
+  }
+}
+
+export default UserPage
