@@ -1,7 +1,7 @@
 import React from 'react'
 
-import { Icon, useToast } from '@chakra-ui/react'
-import Dropzone from 'react-dropzone'
+import { useToast } from '@chakra-ui/react'
+import dynamic from 'next/dynamic'
 import { AiOutlineUpload } from 'react-icons/ai'
 
 import {
@@ -11,6 +11,7 @@ import {
 } from 'src/lib/types'
 import { fetchGetJSON, fetchPostJSON } from 'src/utils/api-helpers'
 
+const Dropzone = dynamic(() => import('react-dropzone'))
 interface UserProps {}
 
 const DropFilesbox = (_props: UserProps) => {
@@ -99,7 +100,7 @@ const DropFilesbox = (_props: UserProps) => {
               className="w-full h-full flex flex-col justify-center items-center"
             >
               <input {...getInputProps()} />
-              <Icon as={AiOutlineUpload} w={16} h={16} />
+              <AiOutlineUpload size={100} />
               <p className="py-4">
                 Drag n drop file here, or click to select file
               </p>
