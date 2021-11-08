@@ -44,6 +44,7 @@ export const findImagesByUser = async ({
           id: Number(userId),
         },
         uploaded: true,
+        deleted: false || null,
         type: {
           contains: 'image',
         },
@@ -86,5 +87,19 @@ export const updateFileUploadById = async (id: number) => {
     throw new Error(
       err.message || 'something went wrong confirming file upload'
     )
+  }
+}
+
+export const updateFileDeleteById = async (id: number) => {
+  try {
+    const Userfiles = await prisma.file.update({
+      where: { id },
+      data: {
+        deleted: true,
+      },
+    })
+    return Userfiles
+  } catch (err: any) {
+    throw new Error(err.message || 'something went wrong finding file by id')
   }
 }

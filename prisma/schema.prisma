@@ -30,6 +30,7 @@ model File {
   type   String
   url    String
   uploaded    Boolean?
+  deleted    Boolean?
   author    User?   @relation(fields: [authorId], references: [id])
   authorId  Int?
   @@map(name: "files")

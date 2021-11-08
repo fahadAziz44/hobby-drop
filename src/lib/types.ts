@@ -1,9 +1,11 @@
 import { PresignedPost } from 'aws-sdk/clients/s3'
-import { NextApiResponse } from 'next'
+import { NextApiRequest, NextApiResponse } from 'next'
 
-export interface GetUploadUrlResponseBody extends PresignedPost {
-  id: string
+export interface NextApiRequestWithBody<T> extends NextApiRequest {
+  body: T
 }
+
+// Req/Res Types
 
 export interface PostUploadUrlReqBody {
   id: string
@@ -25,6 +27,10 @@ export interface GetUserFilesResponse {
   fileName: string
   type: string
 }
+export interface DeleteUserFileRes {
+  id: number
+  deleted: boolean
+}
 
 export interface GetUserResponse {
   id: number
@@ -33,4 +39,17 @@ export interface GetUserResponse {
   lastName: string | null
   createdAt: Date
   updatedAt: Date
+}
+
+// types for Use at client side
+
+export interface UserFile extends Omit<GetUserFilesResponse, 'id'> {
+  id: string
+}
+export interface User extends Omit<GetUserResponse, 'id'> {
+  id: string
+}
+
+export interface GetUploadUrlResponseBody extends PresignedPost {
+  id: string
 }
