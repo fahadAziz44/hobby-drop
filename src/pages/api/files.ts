@@ -1,8 +1,9 @@
+import { File } from '@prisma/client'
 import { NextApiResponse } from 'next'
 import nextConnect from 'next-connect'
 import { NextApiRequest } from 'next/dist/shared/lib/utils'
 
-import { findImagesByUser } from 'src/lib/db_file'
+import { findImagesByUser, updateFileDeleteById } from 'src/lib/db_file'
 import auth from 'src/middleware/auth'
 import { getS3FileUrl } from 'src/utils/file-upload'
 
@@ -34,3 +35,15 @@ export default handler
       }
     }
   )
+  .delete<NextApiRequest, NextApiResponse<File>>(async (req, res) => {
+    try {
+      const { fileId } = req.query
+      if (!fileId) {
+        throw new Error('file id not present in request')
+      }
+      const userFiles = await updateFileDeleteById(Number(fileId))
+      res.status(200).json(userFiles)
+    } catch (error: any) {
+      res.status(500).end(error.message)
+    }
+  })

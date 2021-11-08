@@ -7,6 +7,17 @@ export async function fetchGetJSON<T = any>(url: string): Promise<T> {
   }
 }
 
+export async function fetchDeleteJSON<T = any>(url: string): Promise<T> {
+  try {
+    const response = await fetch(url, {
+      method: 'DELETE',
+    }).then((res) => res.json())
+    return response
+  } catch (err: any) {
+    throw new Error(err.message)
+  }
+}
+
 export async function fetchPostJSON<D = any, T = any>(
   url: string,
   data?: D
